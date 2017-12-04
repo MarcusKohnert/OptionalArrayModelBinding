@@ -18,8 +18,8 @@ namespace OptionalArrayModelBinding
         {
             services.AddMvc(options =>
             {
-                options.ModelBinderProviders.Insert(0, new CutomIdentifierModelBinderProvider());
-                //options.ModelBinderProviders.Add(new DataPointIdentifierModelBinderProvider());
+                //options.ModelBinderProviders.Insert(0, new CutomIdentifierModelBinderProvider());
+                options.ModelBinderProviders.Add(new CutomIdentifierModelBinderProvider());
             });
         }
 

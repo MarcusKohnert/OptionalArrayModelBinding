@@ -8,10 +8,10 @@ namespace OptionalArrayModelBinding
     {
         public IModelBinder GetBinder(ModelBinderProviderContext context)
         {
-            if (context.Metadata.ModelType.IsArray && context.Metadata.ModelType == typeof(CustomIdentifier[]))
-            {
-                return new ArrayModelBinder<CustomIdentifier>(new CustomIdentifierModelBinder());
-            }
+            //if (context.Metadata.ModelType.IsArray && context.Metadata.ModelType == typeof(CustomIdentifier[]))
+            //{
+            //    return new ArrayModelBinder<CustomIdentifier>(new CustomIdentifierModelBinder());
+            //}
 
             if (context.Metadata.ModelType == typeof(CustomIdentifier))
             {
