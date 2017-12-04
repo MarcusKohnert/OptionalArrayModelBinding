@@ -30,7 +30,7 @@ namespace OptionalArrayModelBindingTest
         [Fact]
         public async Task SuccessWithValidIds()
         {
-            var response = await client.GetAsync("/api/values?ids=aaa001&bbb002");
+            var response = await client.GetAsync("/api/values?ids=aaa001&ids=bbb002");
 
             Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
         }
@@ -38,7 +38,7 @@ namespace OptionalArrayModelBindingTest
         [Fact]
         public async Task FailureWithOneInvalidId()
         {
-            var response = await client.GetAsync("/api/values?ids=xaaa001&bbb002");
+            var response = await client.GetAsync("/api/values?ids=xaaa001&ids=bbb002");
 
             Assert.Equal(System.Net.HttpStatusCode.BadRequest, response.StatusCode);
         }
