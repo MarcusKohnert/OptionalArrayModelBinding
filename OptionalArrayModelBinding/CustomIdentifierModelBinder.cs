@@ -8,10 +8,10 @@ namespace OptionalArrayModelBinding
     {
         public IModelBinder GetBinder(ModelBinderProviderContext context)
         {
-            //if (context.Metadata.ModelType.IsArray && context.Metadata.ModelType == typeof(CustomIdentifier[]))
-            //{
-            //    return new ArrayModelBinder<CustomIdentifier>(new CustomIdentifierModelBinder());
-            //}
+            if (context.Metadata.ModelType.IsArray && context.Metadata.ModelType == typeof(CustomIdentifier[]))
+            {
+                return new ArrayModelBinder<CustomIdentifier>(new CustomIdentifierModelBinder());
+            }
 
             if (context.Metadata.ModelType == typeof(CustomIdentifier))
             {
@@ -26,9 +26,15 @@ namespace OptionalArrayModelBinding
     {
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
-            var attemptedValue = bindingContext.ValueProvider.GetValue(bindingContext.ModelName).ToString();
-            var parseResult    = CustomIdentifier.TryParse(attemptedValue);
+            var valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+            if (valueProviderResult == ValueProviderResult.None)
+            {
+                return Task.CompletedTask;
+            }
 
+            bindingContext.ModelState.SetModelValue(bindingContext.ModelName, valueProviderResult);
+
+            var parseResult = CustomIdentifier.TryParse(valueProviderResult.FirstValue);
             if (parseResult.Failed)
             {
                 bindingContext.Result = ModelBindingResult.Failed();
